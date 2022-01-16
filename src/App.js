@@ -9,15 +9,26 @@ import {
 import './App.css';
 import InfoBox from './InfoBox' ; 
 import Map from "./Map" ; 
+import Table from "./Table" ; 
+import { sortData } from "./util";
 
 function App() {
 
   const [countries , setCountries] = useState([]) ;
   const [country , setCountry] = useState('worldwide') ; //default
-
+  const [countryInfo, setCountryInfo] = useState({});
+  const [tableData, setTableData] = useState([]);
 
   //State = how to write a variable in react
   //USEEFFECT : runs a piece of code based on a given condition
+
+  useEffect(() => {
+    fetch("https://disease.sh/v3/covid-19/all")
+      .then((response) => response.json())
+      .then((data) => {
+        setCountryInfo(data);
+      });
+  }, []);
 
   useEffect(() => {
    //code inside here once when component loads and not again after
@@ -33,6 +44,8 @@ function App() {
 
         }
         ));
+        const sortedData  = sortData(data) ; 
+        setTableData(sortedData);
         setCountries(countries) ;
       })
     }
@@ -41,11 +54,26 @@ function App() {
     //and once when the variable changes
   }, [countries]) ; 
   
-const onCountryChange = async(event) => {
+const onCountryChange = async(event) => { //listener
   const countryCode = event.target.value ;
+  setCountry(countryCode) ; 
 
-   setCountry(countryCode) ; 
-}
+  const url =
+      countryCode === "worldwide"
+        ? "https://disease.sh/v3/covid-19/all"
+        : `https://disease.sh/v3/covid-19/countries/${countryCode}`;
+
+        await fetch(url)
+        .then((response) => response.json())
+        .then((data) => {
+          setCountry(countryCode);
+          setCountryInfo(data);
+         
+          
+        });
+
+
+};
 
   return (
     <div className="app">
@@ -81,13 +109,13 @@ const onCountryChange = async(event) => {
        <div className="app__stats">
 
        {/* infoboxes title = "coronavirus cases"  */}
-          <InfoBox title = "Coronavirus Cases" cases={123} total = {2000} />
+          <InfoBox title = "Coronavirus Cases" cases={countryInfo.todayCases} total = {countryInfo.cases} />
          
 
        {/* infoboxes title="coronavirus recoveries"  */}
-       <InfoBox title = " Recoveries" cases = {123} total ={3000}/>
+       <InfoBox title = " Recoveries" cases = {countryInfo.recovered} total ={countryInfo.recovered}/>
        {/* infoboxes title = "deaths"  */}
-       <InfoBox title = " Deaths" cases ={123} total ={200}/>
+       <InfoBox title = " Deaths" cases ={countryInfo.todayDeaths} total ={countryInfo.deaths}/>
 
 
         </div>
@@ -105,7 +133,11 @@ const onCountryChange = async(event) => {
 
         <CardContent>
           <h3>Live Cases by country</h3>
+          {/* table */}
+
+          <Table countries={tableData} />
           <h3>Worldwide new cases</h3>
+          {/* graph */}
         </CardContent>
 
       </Card>
