@@ -2,15 +2,18 @@ import React,{useState , useEffect} from "react" ;
 import {
   MenuItem,
   FormControl,
-  Select
+  Select,
+  Card,
+  CardContent
 } from "@material-ui/core" ;
 import './App.css';
+import InfoBox from './InfoBox' ; 
+import Map from "./Map" ; 
 
 function App() {
 
-  const [countries , setCountries] = useState([
-    
-  ]) ;
+  const [countries , setCountries] = useState([]) ;
+  const [country , setCountry] = useState('worldwide') ; //default
 
 
   //State = how to write a variable in react
@@ -38,49 +41,76 @@ function App() {
     //and once when the variable changes
   }, [countries]) ; 
   
+const onCountryChange = async(event) => {
+  const countryCode = event.target.value ;
 
+   setCountry(countryCode) ; 
+}
 
   return (
     <div className="app">
-       <div className="app__header">
 
-       <h1>COVID-19 TRACKER </h1>
-      <FormControl>
-        <Select
-          variant ="outlined" 
-          value ="abc"
-        >
+      <div className="app__left">
+
+         {/* covid-19tracker + dropdown  */}
+        <div className="app__header">
+
+          <h1>COVID-19 TRACKER </h1>
+          <FormControl className = "app__dropdown">
+          <Select
+            variant ="outlined" 
+            onChange={onCountryChange}
+            value ={country}
+          >
           {/* loop through all the countries and show a drop down */}
-
+          <MenuItem value = "worldwide">Worldwide</MenuItem>
           {
             countries.map((country)=>(
               <MenuItem value ={country.value}>{country.name}</MenuItem>
             ))
           }
 
-        </Select>
+          </Select>
         
-      </FormControl>
+          </FormControl>
 
        </div>
      
+     
+ 
+       <div className="app__stats">
+
+       {/* infoboxes title = "coronavirus cases"  */}
+          <InfoBox title = "Coronavirus Cases" cases={123} total = {2000} />
+         
+
+       {/* infoboxes title="coronavirus recoveries"  */}
+       <InfoBox title = " Recoveries" cases = {123} total ={3000}/>
+       {/* infoboxes title = "deaths"  */}
+       <InfoBox title = " Deaths" cases ={123} total ={200}/>
+
+
+        </div>
       
 
-      {/* covid-19tracker + dropdown  */}
 
 
-      {/* infoboxes  */}
-      {/* infoboxes  */}
-      {/* infoboxes  */}
+        {/*  map */}
+          <Map />
+
+      </div>
 
 
-      {/* table   */}
+      <Card className="app__right">
 
-      {/* graph  */}
+        <CardContent>
+          <h3>Live Cases by country</h3>
+          <h3>Worldwide new cases</h3>
+        </CardContent>
 
-      {/*  map */}
+      </Card>
 
-
+     
     </div>
   );
 }

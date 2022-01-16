@@ -8,3 +8,33 @@
   margin-bottom: 20px;
   justify-content: space-between;
 }
+
+.app__stats{
+
+  display: flex;
+
+
+
+}
+
+body{
+  background-color:#FFE4E1 ;
+  justify-content: space-between;
+
+}
+.app{
+  
+  display: flex;
+  justify-content: space-evenly;
+  background-color: #FFE4E1;
+  padding: 30px;
+}
+.app__left {
+  flex: 0.9;
+}
+
+@media (max-width: 990px) {
+  .app {
+    flex-direction: column;
+  }
+}
