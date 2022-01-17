@@ -27,7 +27,7 @@ body{
   display: flex;
   justify-content: space-evenly;
   background-color: #FFE4E1;
-  padding: 30px;
+  padding: 20px;
 }
 .app__left {
   flex: 0.9;
