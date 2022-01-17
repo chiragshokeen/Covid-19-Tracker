@@ -10,7 +10,7 @@ import './App.css';
 import InfoBox from './InfoBox' ; 
 import Map from "./Map" ; 
 import Table from "./Table" ; 
-import { sortData } from "./util";
+import { sortData , prettyPrintStat } from "./util";
 import LineGraph from "./LineGraph";
 import "leaflet/dist/leaflet.css";
 
@@ -20,10 +20,10 @@ function App() {
   const [country , setCountry] = useState('worldwide') ; //default
   const [countryInfo, setCountryInfo] = useState({});
   const [tableData, setTableData] = useState([]);
-  const [mapCenter, setMapCenter] = useState({ lat: 34.80746, lng: -40.4796 });
+  const [mapCenter, setMapCenter] = useState({ lat: 28.7041 , lng: 77.1025 });
   const [mapZoom, setMapZoom] = useState(3);
   const [mapCountries, setMapCountries] = useState([]);
-  
+  const [casesType, setCasesType] = useState("cases");
 
 
   //State = how to write a variable in react
@@ -119,13 +119,25 @@ const onCountryChange = async(event) => { //listener
        <div className="app__stats">
 
        {/* infoboxes title = "coronavirus cases"  */}
-          <InfoBox title = "Coronavirus Cases" cases={countryInfo.todayCases} total = {countryInfo.cases} />
+          <InfoBox 
+          onClick={(e) => setCasesType("cases")}
+          title = "Coronavirus Cases" 
+          cases={prettyPrintStat(countryInfo.todayCases)} 
+          total = {prettyPrintStat(countryInfo.cases)} />
          
 
        {/* infoboxes title="coronavirus recoveries"  */}
-       <InfoBox title = " Recoveries" cases = {countryInfo.recovered} total ={countryInfo.recovered}/>
+       <InfoBox 
+         onClick={(e) => setCasesType("recovered")}
+         title = " Recoveries" 
+         cases = {prettyPrintStat(countryInfo.todayRecovered)} 
+         total ={prettyPrintStat(countryInfo.recovered)}/>
        {/* infoboxes title = "deaths"  */}
-       <InfoBox title = " Deaths" cases ={countryInfo.todayDeaths} total ={countryInfo.deaths}/>
+       <InfoBox 
+         onClick={(e) => setCasesType("deaths")}
+         title = " Deaths" 
+         cases ={prettyPrintStat(countryInfo.todayDeaths)} 
+         total ={prettyPrintStat(countryInfo.deaths)}/>
 
 
         </div>
@@ -137,7 +149,7 @@ const onCountryChange = async(event) => { //listener
           <Map
           
           countries={mapCountries}
-          
+         casesType={casesType}
           center={mapCenter}
           zoom={mapZoom}
           
