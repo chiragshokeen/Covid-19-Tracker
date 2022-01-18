@@ -120,6 +120,8 @@ const onCountryChange = async(event) => { //listener
 
        {/* infoboxes title = "coronavirus cases"  */}
           <InfoBox 
+          isRed
+           active={casesType === "cases"}
           onClick={(e) => setCasesType("cases")}
           title = "Coronavirus Cases" 
           cases={prettyPrintStat(countryInfo.todayCases)} 
@@ -128,12 +130,16 @@ const onCountryChange = async(event) => { //listener
 
        {/* infoboxes title="coronavirus recoveries"  */}
        <InfoBox 
+        isGreen
+        active={casesType === "recovered"}
          onClick={(e) => setCasesType("recovered")}
          title = " Recoveries" 
          cases = {prettyPrintStat(countryInfo.todayRecovered)} 
          total ={prettyPrintStat(countryInfo.recovered)}/>
        {/* infoboxes title = "deaths"  */}
        <InfoBox 
+         isPurple
+         active={casesType === "deaths"}
          onClick={(e) => setCasesType("deaths")}
          title = " Deaths" 
          cases ={prettyPrintStat(countryInfo.todayDeaths)} 
@@ -166,9 +172,9 @@ const onCountryChange = async(event) => { //listener
 
           <Table countries={tableData} />
 
-          <h3>Worldwide new cases</h3>
+          <h3 className="app__graphTitle">Worldwide new {casesType}</h3>
           {/* graph */}
-          <LineGraph  />
+          <LineGraph className = "app__graph "casesType ={casesType}  />
         </CardContent>
 
       </Card>

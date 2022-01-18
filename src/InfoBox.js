@@ -2,9 +2,14 @@ import React from 'react' ;
 import {Card , CardContent ,Typography } from "@material-ui/core" ; 
 import "./InfoBox.css" ; 
 
-function InfoBox({title ,cases , total , ...props  }) { //dividing the infobox to 3 parts using props
+function InfoBox({title ,cases ,isRed ,isPurple , isGreen,active ,  total , ...props  }) { //dividing the infobox to 3 parts using props
     return (
-        <Card onClick = {props.onClick} className = "infoBox">
+        <Card
+        onClick={props.onClick}
+        className={`infoBox ${active && "infoBox--selected"}  ${
+            isRed && "infoBox--red"} ${isPurple && "infoBox--purple"}
+          }`}
+      >
             <CardContent>
 
                {/* Title coronavirus cases */}
@@ -15,7 +20,10 @@ function InfoBox({title ,cases , total , ...props  }) { //dividing the infobox t
 
                {/* Number of cases */}
 
-               <h2 className ="infoBox__cases">{cases}</h2>
+               <h2 className={`infoBox__cases ${isGreen &&  "infoBox__cases--green"}
+                ${isPurple &&  "infoBox__cases--purple"}`}>
+          {cases}
+        </h2>
 
                {/* total */}
                <Typography className ="infoBox__total" color =" textSecondary">
