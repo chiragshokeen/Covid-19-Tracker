@@ -133,9 +133,10 @@ const onCountryChange = async(event) => { //listener
         isGreen
         active={casesType === "recovered"}
          onClick={(e) => setCasesType("recovered")}
-         title = " Recoveries" 
+         title = " Recovered" 
          cases = {prettyPrintStat(countryInfo.todayRecovered)} 
          total ={prettyPrintStat(countryInfo.recovered)}/>
+         
        {/* infoboxes title = "deaths"  */}
        <InfoBox 
          isPurple
@@ -167,7 +168,7 @@ const onCountryChange = async(event) => { //listener
       <Card className="app__right">
 
         <CardContent>
-          <h3>Live Cases by country</h3>
+          <h3 className ="table__title ">Live Cases by Country</h3>
           {/* table */}
 
           <Table countries={tableData} />

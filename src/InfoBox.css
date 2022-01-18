@@ -5,7 +5,7 @@
 
 /* for everychild except last */
 .infoBox:not(:last-child) {
-    margin-right: 10px;
+    margin-right: 50px;
   }
 
   .infoBox--selected {
@@ -52,4 +52,8 @@
 
 .infoBox__cases--purple {
   color: purple !important;
+}
+
+.infoBox__title{
+  font-weight: bold !important;
 }
